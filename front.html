@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Casa do Dragão — Assine Agora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Tokens ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --fire:    #C0392B;
+      --ember:   #E8A045;
+      --gold:    #D4AF37;
+      --ash:     #1A0A0A;
+      --smoke:   #2C1810;
+      --mist:    #8B7355;
+      --cream:   #F5E6C8;
+      --white:   #FFFFFF;
+      --card-bg: rgba(28, 8, 8, 0.88);
+      --border:  rgba(212, 175, 55, 0.35);
+      --glow:    rgba(192, 57, 43, 0.6);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Crimson Text', Georgia, serif;
+      background: var(--ash);
+      color: var(--cream);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      text-align: center;
+      padding: 2rem 1.5rem 3rem;
+      overflow: hidden;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    /* Fallback gradient background (shown while image loads) */
+    .hero__bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, #3D0C0C 0%, #1A0505 50%, #0A0202 100%);
+    }
+
+    .hero__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      opacity: 0.7;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background:
+        linear-gradient(to bottom, rgba(10,2,2,0.3) 0%, rgba(10,2,2,0) 40%, rgba(10,2,2,0.85) 100%);
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 3;
+      max-width: 680px;
+    }
+
+    .hero__eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(0.6rem, 2vw, 0.85rem);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--ember);
+      margin-bottom: 0.75rem;
+    }
+
+    .hero__title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.8rem, 10vw, 7rem);
+      font-weight: 900;
+      line-height: 0.9;
+      color: var(--cream);
+      text-shadow: 0 0 60px var(--glow), 0 4px 20px rgba(0,0,0,0.9);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero__title span {
+      color: var(--fire);
+      text-shadow: 0 0 40px rgba(192,57,43,0.9), 0 0 80px rgba(192,57,43,0.4);
+    }
+
+    .hero__subtitle {
+      font-family: 'Crimson Text', serif;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-style: italic;
+      color: var(--mist);
+      margin-bottom: 2rem;
+    }
+
+    .hero__cta {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--fire), #8B1A1A);
+      color: var(--cream);
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.9rem 2.5rem;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+      transition: filter 0.3s, transform 0.2s;
+    }
+
+    .hero__cta:hover {
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+    }
+
+    /* Flame divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0 1.5rem;
+      margin: 0 auto;
+      max-width: 960px;
+    }
+    .divider__line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .divider__icon { color: var(--fire); font-size: 1.2rem; }
+
+    /* ── About ── */
+    .about {
+      padding: 5rem 1.5rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--fire);
+      margin-bottom: 1.5rem;
+    }
+
+    .about__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    @media (min-width: 640px) {
+      .about__grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 900px) {
+      .about__grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    .about__card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      text-align: left;
+      position: relative;
+    }
+
+    .about__card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--fire), transparent);
+    }
+
+    .about__card-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      margin-bottom: 1.25rem;
+      filter: saturate(0.8) contrast(1.1);
+    }
+
+    .about__card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .about__card-text {
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--mist);
+    }
+
+    /* ── Plans ── */
+    .plans {
+      padding: 5rem 1.5rem 6rem;
+      background: linear-gradient(to bottom, var(--ash), #0D0303);
+    }
+
+    .plans__inner {
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    .plans__heading {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .plans__heading h2 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+
+    .plans__heading p {
+      color: var(--mist);
+      font-style: italic;
+      font-size: 1.1rem;
+    }
+
+    .plans__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 720px) {
+      .plans__grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .plan-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 2.25rem 1.75rem 2rem;
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(192,57,43,0.25);
+    }
+
+    .plan-card--featured {
+      border-color: var(--fire);
+      background: linear-gradient(160deg, rgba(50,10,10,0.95), rgba(28,8,8,0.95));
+    }
+
+    .plan-card--featured::before {
+      content: 'MAIS POPULAR';
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--fire);
+      color: var(--cream);
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      padding: 0.3rem 1.2rem;
+    }
+
+    .plan-card__tier {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--fire);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-card__name {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 0.4rem;
+    }
+
+    .plan-card__tagline {
+      font-style: italic;
+      color: var(--mist);
+      font-size: 0.9rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .plan-card__divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin-bottom: 1.5rem;
+    }
+
+    .plan-card__features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .plan-card__features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 0.92rem;
+      color: #C4A882;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(212,175,55,0.08);
+    }
+
+    .plan-card__features li:last-child { border-bottom: none; }
+
+    .feat-icon { color: var(--gold); font-size: 0.8rem; margin-top: 0.15rem; flex-shrink: 0; }
+
+    .plan-card__price {
+      margin-bottom: 1.5rem;
+    }
+
+    .plan-card__price .currency {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      color: var(--ember);
+      vertical-align: super;
+    }
+
+    .plan-card__price .amount {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--cream);
+    }
+
+    .plan-card__price .period {
+      font-size: 0.85rem;
+      color: var(--mist);
+    }
+
+    .plan-card__btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.85rem;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .plan-card__btn:hover,
+    .plan-card--featured .plan-card__btn {
+      background: var(--fire);
+      border-color: var(--fire);
+      color: var(--cream);
+    }
+
+    .plan-card--featured .plan-card__btn:hover {
+      background: #A0281C;
+      border-color: #A0281C;
+    }
+
+    /* ── Modal ── */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(5, 0, 0, 0.85);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      background: linear-gradient(160deg, #1E0808, #130404);
+      border: 1px solid var(--border);
+      max-width: 440px;
+      width: 100%;
+      padding: 2.5rem 2rem;
+      position: relative;
+    }
+
+    .modal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--fire), var(--ember), var(--fire));
+    }
+
+    .modal__close {
+      position: absolute;
+      top: 1rem; right: 1.25rem;
+      background: none;
+      border: none;
+      color: var(--mist);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .modal__close:hover { color: var(--cream); }
+
+    .modal__eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--fire);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal__title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 0.3rem;
+    }
+
+    .modal__plan-badge {
+      display: inline-block;
+      background: rgba(192,57,43,0.2);
+      border: 1px solid rgba(192,57,43,0.4);
+      color: var(--ember);
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      padding: 0.3rem 0.8rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .modal label {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--mist);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal input[type="email"] {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--cream);
+      font-family: 'Crimson Text', serif;
+      font-size: 1rem;
+      padding: 0.85rem 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .modal input[type="email"]:focus {
+      border-color: var(--fire);
+    }
+
+    .modal input[type="email"]::placeholder {
+      color: rgba(139,115,85,0.5);
+    }
+
+    .modal__submit {
+      width: 100%;
+      margin-top: 1.5rem;
+      background: linear-gradient(135deg, var(--fire), #8B1A1A);
+      color: var(--cream);
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: filter 0.25s;
+    }
+
+    .modal__submit:hover:not(:disabled) { filter: brightness(1.15); }
+    .modal__submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .modal__status {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      text-align: center;
+      min-height: 1.4rem;
+    }
+    .modal__status.success { color: #5CBA6A; }
+    .modal__status.error   { color: #E05C5C; }
+    .modal__status.loading { color: var(--mist); font-style: italic; }
+
+    /* Success screen */
+    .modal__success-screen {
+      display: none;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .modal__success-screen.visible { display: block; }
+
+    .success-flame {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: flicker 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes flicker {
+      from { text-shadow: 0 0 10px #C0392B; }
+      to   { text-shadow: 0 0 30px #E8A045, 0 0 60px #C0392B; }
+    }
+
+    .modal__success-screen h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .modal__success-screen p {
+      color: var(--mist);
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      color: rgba(139,115,85,0.5);
+      font-size: 0.8rem;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.1em;
+    }
+
+    footer span { color: var(--fire); }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive: larger hero image crop ── */
+    @media (min-width: 768px) {
+      .hero { min-height: 100vh; }
+      .hero__img { object-position: center 15%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<section class="hero">
+  <div class="hero__bg">
+    <img
+      class="hero__img"
+      src="https://raw.githubusercontent.com/palmer-ulbra/dev-front-2026-1/refs/heads/main/aula-17-trabalho/house-of-dragon/images/hero-desktop-characters.avif"
+      alt="A Casa do Dragão"
+      onerror="this.style.display='none'"
+    />
+  </div>
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <p class="hero__eyebrow">HBO Original · Uma história Targaryen</p>
+    <h1 class="hero__title">A Casa<br>do <span>Dragão</span></h1>
+    <p class="hero__subtitle">O fogo e o sangue definem um trono. Escolha de que lado você está.</p>
+    <a href="#planos" class="hero__cta">Assine Agora</a>
+  </div>
+</section>
+
+<!-- ════════════════════ DIVIDER ════════════════════ -->
+<div class="divider" style="padding-top:3.5rem">
+  <div class="divider__line"></div>
+  <span class="divider__icon">🐉</span>
+  <div class="divider__line"></div>
+</div>
+
+<!-- ════════════════════ ABOUT ════════════════════ -->
+<section class="about">
+  <p class="section-label">Sobre a Série</p>
+  <h2 style="font-family:'Cinzel',serif;font-size:clamp(1.3rem,4vw,2rem);font-weight:700;margin-bottom:1rem;">
+    A guerra civil que dividiu uma dinastia
+  </h2>
+  <p style="color:var(--mist);font-size:1.05rem;line-height:1.75;max-width:620px;margin:0 auto;">
+    Ambientada duzentos anos antes dos eventos de <em>Game of Thrones</em>, A Casa do Dragão narra
+    a ascensão e a queda da Casa Targaryen — um conflito de poder, sangue e dragões que redefiniria
+    os Sete Reinos para sempre.
+  </p>
+
+  <div class="about__grid">
+    <article class="about__card reveal">
+      <img
+        class="about__card-img"
+        src="https://raw.githubusercontent.com/palmer-ulbra/dev-front-2026-1/refs/heads/main/aula-17-trabalho/house-of-dragon/images/hero-desktop-bg.avif"
+        alt="Rhaenyra Targaryen"
+        onerror="this.style.display='none'"
+      />
+      <h3 class="about__card-title">Rhaenyra Targaryen</h3>
+      <p class="about__card-text">
+        A legítima herdeira do Trono de Ferro. Determinada, ousada e amada pelo povo — mas desafiada
+        por aqueles que creem que uma mulher não pode reinar.
+      </p>
+    </article>
+
+    <article class="about__card reveal" style="transition-delay:0.15s">
+      <img
+        class="about__card-img"
+        src="https://raw.githubusercontent.com/palmer-ulbra/dev-front-2026-1/refs/heads/main/aula-17-trabalho/house-of-dragon/images/hbomax.avif"
+        alt="Alicent Hightower"
+        onerror="this.style.display='none'"
+      />
+      <h3 class="about__card-title">Alicent Hightower</h3>
+      <p class="about__card-text">
+        Rainha e guardiã da tradição. Sua aliança com a Igreja e os grandes lordes a torna uma força
+        implacável na luta pela sucessão.
+      </p>
+    </article>
+
+    <article class="about__card reveal" style="transition-delay:0.3s">
+      <div style="background:linear-gradient(135deg,#1A0505,#2C1010);aspect-ratio:16/9;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:center;font-size:3rem;">🔥</div>
+      <h3 class="about__card-title">A Dança dos Dragões</h3>
+      <p class="about__card-text">
+        Dragões contra dragões. Irmãos contra irmãos. Uma guerra civil que consumiu a Casa Targaryen
+        nas chamas que ela mesma dominou por séculos.
+      </p>
+    </article>
+  </div>
+</section>
+
+<!-- ════════════════════ PLANS ════════════════════ -->
+<section class="plans" id="planos">
+  <div class="plans__inner">
+    <div class="plans__heading reveal">
+      <p class="section-label">Planos de Assinatura</p>
+      <h2>Escolha seu Juramento</h2>
+      <p>Assista em qualquer dispositivo, a qualquer hora. Cancele quando quiser.</p>
+    </div>
+
+    <div class="plans__grid">
+
+      <!-- BASIC -->
+      <div class="plan-card reveal" data-plan="BASIC" data-plan-name="Dragão Jovem">
+        <p class="plan-card__tier">Plano</p>
+        <h3 class="plan-card__name">Dragão Jovem</h3>
+        <p class="plan-card__tagline">Para quem está começando a jornada</p>
+        <div class="plan-card__divider"></div>
+        <ul class="plan-card__features">
+          <li><span class="feat-icon">✦</span><span>2 dispositivos simultâneos</span></li>
+          <li><span class="feat-icon">✦</span><span>Resolução Full HD</span></li>
+          <li><span class="feat-icon">✦</span><span>Acesso ao catálogo HBO</span></li>
+          <li><span class="feat-icon">✦</span><span>Anúncios inclusos</span></li>
+        </ul>
+        <div class="plan-card__price">
+          <span class="currency">R$</span>
+          <span class="amount">29</span>
+          <span style="font-family:'Cinzel',serif;font-size:1.5rem;color:var(--cream)">,90</span>
+          <span class="period">/mês</span>
+        </div>
+        <button class="plan-card__btn">Jurar Lealdade</button>
+      </div>
+
+      <!-- STANDARD -->
+      <div class="plan-card plan-card--featured reveal" style="transition-delay:0.1s" data-plan="STANDARD" data-plan-name="Casa Targaryen">
+        <p class="plan-card__tier">Plano</p>
+        <h3 class="plan-card__name">Casa Targaryen</h3>
+        <p class="plan-card__tagline">A escolha da realeza</p>
+        <div class="plan-card__divider"></div>
+        <ul class="plan-card__features">
+          <li><span class="feat-icon">✦</span><span>2 dispositivos simultâneos</span></li>
+          <li><span class="feat-icon">✦</span><span>Resolução Full HD</span></li>
+          <li><span class="feat-icon">✦</span><span>Sem anúncios</span></li>
+          <li><span class="feat-icon">✦</span><span>30 downloads off-line</span></li>
+        </ul>
+        <div class="plan-card__price">
+          <span class="currency">R$</span>
+          <span class="amount">44</span>
+          <span style="font-family:'Cinzel',serif;font-size:1.5rem;color:var(--cream)">,90</span>
+          <span class="period">/mês</span>
+        </div>
+        <button class="plan-card__btn">Reclamar o Trono</button>
+      </div>
+
+      <!-- PLATINUM -->
+      <div class="plan-card reveal" style="transition-delay:0.2s" data-plan="PLATINUM" data-plan-name="Fogo e Sangue">
+        <p class="plan-card__tier">Plano</p>
+        <h3 class="plan-card__name">Fogo e Sangue</h3>
+        <p class="plan-card__tagline">Para os verdadeiros senhores dos dragões</p>
+        <div class="plan-card__divider"></div>
+        <ul class="plan-card__features">
+          <li><span class="feat-icon">✦</span><span>4 dispositivos simultâneos</span></li>
+          <li><span class="feat-icon">✦</span><span>Full HD + 4K Ultra HD</span></li>
+          <li><span class="feat-icon">✦</span><span>Áudio Dolby Atmos</span></li>
+          <li><span class="feat-icon">✦</span><span>100 downloads off-line</span></li>
+        </ul>
+        <div class="plan-card__price">
+          <span class="currency">R$</span>
+          <span class="amount">55</span>
+          <span style="font-family:'Cinzel',serif;font-size:1.5rem;color:var(--cream)">,90</span>
+          <span class="period">/mês</span>
+        </div>
+        <button class="plan-card__btn">Dominar os Céus</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer>
+  <p>© 2024 HBO Max · A Casa do Dragão · Todos os direitos reservados</p>
+  <p style="margin-top:0.4rem">Criado com <span>♥</span> e fogo de dragão</p>
+</footer>
+
+<!-- ════════════════════ MODAL ════════════════════ -->
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal__close" id="modalClose" aria-label="Fechar">&times;</button>
+
+    <!-- Form view -->
+    <div id="modalForm">
+      <p class="modal__eyebrow">Assinatura</p>
+      <h2 class="modal__title" id="modalTitle">Confirmar Plano</h2>
+      <div style="margin-bottom:1.75rem">
+        <span class="modal__plan-badge" id="modalPlanBadge">STANDARD</span>
+      </div>
+
+      <label for="emailInput">Seu e-mail</label>
+      <input
+        type="email"
+        id="emailInput"
+        placeholder="seuemail@exemplo.com"
+        autocomplete="email"
+        required
+      />
+
+      <p style="margin-top:0.75rem;font-size:0.82rem;color:var(--mist);font-style:italic;">
+        Você será cobrado mensalmente. Cancele a qualquer momento.
+      </p>
+
+      <button class="modal__submit" id="submitBtn">Confirmar Assinatura</button>
+      <div class="modal__status" id="statusMsg" role="status" aria-live="polite"></div>
+    </div>
+
+    <!-- Success view -->
+    <div class="modal__success-screen" id="successScreen">
+      <div class="success-flame">🔥</div>
+      <h3>Obrigado por assinar!</h3>
+      <p>
+        Sua assinatura <strong id="successPlanName" style="color:var(--ember)"></strong> foi confirmada.<br>
+        Bem-vindo à Casa do Dragão. <em>Dracarys.</em>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ── State ── */
+  const BASE_URL = 'https://house-of-dragons-pi.vercel.app';
+  // Replace with your student email to obtain a token
+  const STUDENT_EMAIL = 'lucasoliveiradasilva@rede.ulbra.br';
+
+  let selectedPlan = null;
+  let selectedPlanName = null;
+
+  /* ── Elements ── */
+  const backdrop    = document.getElementById('modalBackdrop');
+  const modalForm   = document.getElementById('modalForm');
+  const successScreen = document.getElementById('successScreen');
+  const modalClose  = document.getElementById('modalClose');
+  const modalPlanBadge = document.getElementById('modalPlanBadge');
+  const successPlanName = document.getElementById('successPlanName');
+  const emailInput  = document.getElementById('emailInput');
+  const submitBtn   = document.getElementById('submitBtn');
+  const statusMsg   = document.getElementById('statusMsg');
+
+  /* ── Open modal on plan click ── */
+  document.querySelectorAll('.plan-card').forEach(card => {
+    card.addEventListener('click', () => {
+      selectedPlan     = card.dataset.plan;
+      selectedPlanName = card.dataset.planName;
+      modalPlanBadge.textContent = selectedPlan;
+      // Reset
+      emailInput.value = '';
+      setStatus('', '');
+      submitBtn.disabled = false;
+      modalForm.style.display = 'block';
+      successScreen.classList.remove('visible');
+      backdrop.classList.add('open');
+      emailInput.focus();
+    });
+  });
+
+  /* ── Close modal ── */
+  modalClose.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  function closeModal() {
+    backdrop.classList.remove('open');
+  }
+
+  /* ── Status helper ── */
+  function setStatus(msg, type) {
+    statusMsg.textContent = msg;
+    statusMsg.className = 'modal__status ' + type;
+  }
+
+  /* ── Submit ── */
+  submitBtn.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+
+    if (!email || !email.includes('@')) {
+      setStatus('Por favor, insira um e-mail válido.', 'error');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    setStatus('Obtendo token...', 'loading');
+
+    try {
+      // Step 1: get token
+      const tokenRes = await fetch(`${BASE_URL}/api/token`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: STUDENT_EMAIL }),
+      });
+
+      if (!tokenRes.ok) throw new Error('Falha ao obter token de autenticação.');
+      const { token } = await tokenRes.json();
+
+      setStatus('Registrando plano...', 'loading');
+
+      // Step 2: register plan
+      const planRes = await fetch(`${BASE_URL}/api/plan`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ email, plan: selectedPlan }),
+      });
+
+      if (!planRes.ok) {
+        const err = await planRes.json().catch(() => ({}));
+        throw new Error(err.message || 'Erro ao registrar o plano.');
+      }
+
+      // Success
+      successPlanName.textContent = selectedPlanName;
+      modalForm.style.display = 'none';
+      successScreen.classList.add('visible');
+
+    } catch (err) {
+      setStatus(err.message || 'Erro inesperado. Tente novamente.', 'error');
+      submitBtn.disabled = false;
+    }
+  });
+
+  /* ── Scroll reveal ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
